@@ -36,7 +36,20 @@ export default function NewLand(props) {
   const ethereum = window.ethereum;
   const web3 = props.web3;
 
-  const ipfs = create("https://ipfs.infura.io:5001/api/v0");
+  const projectId = 'ur infura id';
+  const projectSecret = 'ur infura key';
+  const auth =
+    'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+
+  const ipfs = create({
+    host: 'ipfs.infura.io',
+    port: 5001,
+    protocol: 'https',
+    headers: {
+      authorization: auth,
+    },
+  });
+
 
   const [district, setDistrict] = React.useState("");
   const [taluk, setTaluk] = useState("");
@@ -88,7 +101,7 @@ export default function NewLand(props) {
     let url;
     try {
       const added = await ipfs.add(file);
-      url = 'https://ipfs.infura.io/ipfs/' + added.path;
+      url = 'https://ipfs.io/ipfs/' + added.path;
     } catch (error) {
       console.log("Error uploading file: ", error);
     }
